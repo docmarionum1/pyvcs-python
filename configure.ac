@@ -6,11 +6,11 @@ dnl Python's configure script requires autoconf 2.69 and autoconf-archive.
 dnl
 
 # Set VERSION so we only need to edit in one place (i.e., here)
-m4_define(PYTHON_VERSION, 3.9)
+m4_define(PYTHON_VERSION, 0.0)
 
 AC_PREREQ([2.69])
 
-AC_INIT([python],[PYTHON_VERSION],[https://bugs.python.org/])
+AC_INIT([pyvcs],[PYTHON_VERSION],[https://github.com/docmarionum1/pyvcs/issues])
 
 m4_ifdef(
     [AX_C_FLOAT_WORDS_BIGENDIAN],
@@ -5868,4 +5868,3 @@ if test "$Py_OPT" = 'false' -a "$Py_DEBUG" != 'true'; then
     echo "" >&AS_MESSAGE_FD
     echo "" >&AS_MESSAGE_FD
 fi
-

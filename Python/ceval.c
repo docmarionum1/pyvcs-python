@@ -1006,6 +1006,25 @@ _PyEval_EvalFrameDefault(PyThreadState *tstate, PyFrameObject *f, int throwflag)
     #define USE_COMPUTED_GOTOS 0
 #endif
 
+#define DISPLAY_STEP() \
+  { \
+    PyObject *target = NULL; \
+    PyObject *res = NULL; \
+    PyObject **sp = NULL; \
+    _Py_IDENTIFIER(_pyvcs_display_step); \
+    target = _PyDict_GetItemId(f->f_globals, &PyId__pyvcs_display_step); \
+    if (target != NULL && opcode != LOAD_NAME && opcode != LOAD_METHOD && opcode != LOAD_ATTR) { \
+      Py_INCREF(target); \
+      PUSH(target); \
+      sp = stack_pointer; \
+      res = call_function(tstate, &sp, 0, NULL); \
+      stack_pointer = sp; \
+      if (res == NULL) \
+          goto error; \
+      Py_DECREF(res); \
+    } \
+  }
+
 #if USE_COMPUTED_GOTOS
 /* Import the static jump table */
 #include "opcode_targets.h"
@@ -1020,6 +1039,7 @@ _PyEval_EvalFrameDefault(PyThreadState *tstate, PyFrameObject *f, int throwflag)
         if (!lltrace && !_Py_TracingPossible(ceval2) && !PyDTrace_LINE_ENABLED()) { \
             f->f_lasti = INSTR_OFFSET(); \
             NEXTOPARG(); \
+            DISPLAY_STEP(); \
             goto *opcode_targets[opcode]; \
         } \
         goto fast_next_opcode; \
@@ -1030,6 +1050,7 @@ _PyEval_EvalFrameDefault(PyThreadState *tstate, PyFrameObject *f, int throwflag)
         if (!_Py_TracingPossible(ceval2) && !PyDTrace_LINE_ENABLED()) { \
             f->f_lasti = INSTR_OFFSET(); \
             NEXTOPARG(); \
+            DISPLAY_STEP(); \
             goto *opcode_targets[opcode]; \
         } \
         goto fast_next_opcode; \
@@ -1366,6 +1387,9 @@ main_loop:
         assert(STACK_LEVEL() <= co->co_stacksize);  /* else overflow */
         assert(!_PyErr_Occurred(tstate));
 
+
+
+
         /* Do periodic things.  Doing this every time through
            the loop would add too much overhead, so we do it
            only every Nth instruction.  We also do it if
@@ -1460,6 +1484,8 @@ main_loop:
             }
         }
 #endif
+
+        DISPLAY_STEP();
 
         switch (opcode) {
 
