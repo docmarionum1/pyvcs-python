@@ -1013,7 +1013,7 @@ _PyEval_EvalFrameDefault(PyThreadState *tstate, PyFrameObject *f, int throwflag)
     PyObject **sp = NULL; \
     _Py_IDENTIFIER(_pyvcs_display_step); \
     target = _PyDict_GetItemId(f->f_globals, &PyId__pyvcs_display_step); \
-    if (target != NULL && opcode != LOAD_NAME && opcode != LOAD_METHOD && opcode != LOAD_ATTR) { \
+    if (target != NULL && opcode != LOAD_NAME && opcode != LOAD_METHOD && opcode != LOAD_ATTR && opcode != LOAD_GLOBAL) { \
       Py_INCREF(target); \
       PUSH(target); \
       sp = stack_pointer; \

@@ -127,3 +127,4 @@ Tools/ssl/win32
 
 
 /venv
+/PCbuild/venv
