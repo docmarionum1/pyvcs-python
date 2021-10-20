@@ -9,11 +9,13 @@ sudo apt-get install libportaudio2
 
 Windows
 =======
-- .\PCbuild\build.bat
-- create a venv with .\PCBuild\amd64\python.exe
+From Windows PowerShell
+- .\PCbuild\build.bat -e --pgo -q
+- .\PCBuild\amd64\python.exe -m venv wenv
+- .\wenv\Scripts\activate
+- pip install -r ../pyvcs/requirements.txt
 
-WOAH, it's running colors_new with about 76 FPS using the PGO version of my custom python build.
-game.py is around 55; flickering is happening though because right now the timing is still different.
+
 
 
 Mac
