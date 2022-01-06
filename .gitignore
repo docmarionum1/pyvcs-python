@@ -129,3 +129,4 @@ Tools/ssl/win32
 /venv
 /PCbuild/venv
 wenv
+test-wenv
