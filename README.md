@@ -40,6 +40,15 @@ sudo apt-get install libportaudio2
 make -j8
 ```
 
+### Fedora (Tested, Working)
+
+From bash run:
+```bash
+sudo dnf install portaudio
+./configure --enable-optimizations --with-lto
+make -j8
+```
+
 ### Mac (Untested)
 
 From bash run:
